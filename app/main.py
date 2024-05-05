@@ -1,16 +1,8 @@
 from fastapi import FastAPI
-from .routes import router
-from .dependencies import get_db
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from .models import Base
-from alembic.config import Config
-from alembic import command
-
-
-alembic_cfg = Config("alembic.ini")
-
-SQLALCHEMY_DATABASE_URL = "postgresql://test:test@db/vk"
+from .models import Base, SQLALCHEMY_DATABASE_URL
+from .routes import router
 
 # Create database engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
@@ -26,6 +18,3 @@ app = FastAPI()
 
 # Include routers
 app.include_router(router)
-
-if __name__ == "__main__":
-    command.upgrade(alembic_cfg, "head")

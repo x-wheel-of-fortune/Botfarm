@@ -1,6 +1,8 @@
-from pydantic import BaseModel
-from typing import Optional
 import datetime
+from typing import Optional
+
+from pydantic import BaseModel
+
 
 class UserBase(BaseModel):
     """Base model for user data."""
@@ -10,12 +12,14 @@ class UserBase(BaseModel):
     env: str
     domain: str
 
+
 class UserCreate(UserBase):
     """Model for creating a new user."""
     pass
 
+
 class User(UserBase):
-    """Model for user data including ID, creation timestamp, and lock timestamp."""
+    """Model for user ID, creation timestamp, and lock timestamp."""
     id: str
     created_at: Optional[datetime.datetime]
     locktime: Optional[datetime.datetime]

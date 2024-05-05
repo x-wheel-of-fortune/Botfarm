@@ -1,14 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from . import schemas, crud, models
+
+from . import schemas, crud
 from .dependencies import get_db
 
 router = APIRouter()
 
+
 class IdData(BaseModel):
     """Pydantic model for user ID data."""
     user_id: str
+
 
 @router.post("/create_user", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
@@ -26,6 +29,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="User already exists")
     return crud.create_user(db=db, **user.dict())
 
+
 @router.get("/get_users", response_model=list[schemas.User])
 def get_users(db: Session = Depends(get_db)):
     """Endpoint to get a list of all users.
@@ -37,6 +41,7 @@ def get_users(db: Session = Depends(get_db)):
         list[schemas.User]: List of users.
     """
     return crud.get_users(db=db)
+
 
 @router.post("/acquirejock")
 def acquire_jock(user_id: IdData, db: Session = Depends(get_db)):
@@ -58,6 +63,7 @@ def acquire_jock(user_id: IdData, db: Session = Depends(get_db)):
 
     crud.acquire_lock(db, user_id.user_id)
     return {"message": "Lock acquired successfully"}
+
 
 @router.post("/releasejock")
 def release_jock(user_id: IdData, db: Session = Depends(get_db)):

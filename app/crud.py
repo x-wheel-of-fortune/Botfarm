@@ -1,9 +1,12 @@
-from sqlalchemy.orm import Session
-from . import models
 from datetime import datetime
 
+from sqlalchemy.orm import Session
 
-def create_user(db: Session, login: str, password: str, project_id: str, env: str, domain: str):
+from . import models
+
+
+def create_user(db: Session, login: str, password: str, project_id: str,
+                env: str, domain: str):
     """Create a new user in the database.
 
     Args:
@@ -17,7 +20,8 @@ def create_user(db: Session, login: str, password: str, project_id: str, env: st
     Returns:
         models.UserModel: Created user object.
     """
-    user = models.UserModel(login=login, password=password, project_id=project_id, env=env, domain=domain)
+    user = models.UserModel(login=login, password=password,
+                            project_id=project_id, env=env, domain=domain)
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -46,7 +50,8 @@ def get_user_by_id(db: Session, user_id: str):
     Returns:
         models.UserModel: User object.
     """
-    return db.query(models.UserModel).filter(models.UserModel.id == user_id).first()
+    return db.query(models.UserModel).filter(
+        models.UserModel.id == user_id).first()
 
 
 def get_user_by_login(db: Session, login: str):
@@ -59,7 +64,8 @@ def get_user_by_login(db: Session, login: str):
     Returns:
         models.UserModel: User object.
     """
-    return db.query(models.UserModel).filter(models.UserModel.login == login).first()
+    return db.query(models.UserModel).filter(
+        models.UserModel.login == login).first()
 
 
 def acquire_lock(db: Session, user_id: str):

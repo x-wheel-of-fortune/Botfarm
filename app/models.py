@@ -1,9 +1,10 @@
+import uuid
+from datetime import datetime
+
+from passlib.context import CryptContext
 from sqlalchemy import create_engine, Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from passlib.context import CryptContext
-import uuid
-from datetime import datetime
 
 Base = declarative_base()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -45,9 +46,11 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # CRUD operations
 
-def create_user(db_session, login: str, password: str, project_id: str, env: str, domain: str):
+def create_user(db_session, login: str, password: str, project_id: str,
+                env: str, domain: str):
     """Create a new user in the database."""
-    user = UserModel(login=login, password=password, project_id=project_id, env=env, domain=domain)
+    user = UserModel(login=login, password=password, project_id=project_id,
+                     env=env, domain=domain)
     db_session.add(user)
     db_session.commit()
     db_session.refresh(user)
@@ -64,7 +67,8 @@ def get_users(db_session):
     return db_session.query(UserModel).all()
 
 
-def update_user(db_session, user: UserModel, login: str, password: str, project_id: str, env: str, domain: str):
+def update_user(db_session, user: UserModel, login: str, password: str,
+                project_id: str, env: str, domain: str):
     """Update a user in the database."""
     user.login = login
     user.password = password
