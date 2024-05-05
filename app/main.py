@@ -1,5 +1,3 @@
-# main.py
-
 from fastapi import FastAPI
 from .routes import router
 from .dependencies import get_db
