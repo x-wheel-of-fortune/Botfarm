@@ -43,8 +43,8 @@ def get_users(db: Session = Depends(get_db)):
     return crud.get_users(db=db)
 
 
-@router.post("/acquirejock")
-def acquire_jock(user_id: IdData, db: Session = Depends(get_db)):
+@router.post("/acquire_lock")
+def acquire_lock(user_id: IdData, db: Session = Depends(get_db)):
     """Endpoint to acquire a lock for a user.
 
     Args:
@@ -65,8 +65,8 @@ def acquire_jock(user_id: IdData, db: Session = Depends(get_db)):
     return {"message": "Lock acquired successfully"}
 
 
-@router.post("/releasejock")
-def release_jock(user_id: IdData, db: Session = Depends(get_db)):
+@router.post("/release_lock")
+def release_lock(user_id: IdData, db: Session = Depends(get_db)):
     """Endpoint to release a lock for a user.
 
     Args:
