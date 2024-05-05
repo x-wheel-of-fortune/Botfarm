@@ -1,6 +1,8 @@
+import os
 import uuid
 from datetime import datetime
 
+from dotenv import load_dotenv
 from passlib.context import CryptContext
 from sqlalchemy import create_engine, Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
@@ -38,14 +40,12 @@ class UserModel(Base):
         return pwd_context.verify(password, self.password_hash)
 
 
-# Create session factory
-SQLALCHEMY_DATABASE_URL = "postgresql://test:test@db/vk"
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+load_dotenv()
+engine = create_engine(os.getenv('SQLALCHEMY_DATABASE_URL'))
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 # CRUD operations
-
 def create_user(db_session, login: str, password: str, project_id: str,
                 env: str, domain: str):
     """Create a new user in the database."""

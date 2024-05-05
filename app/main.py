@@ -1,20 +1,19 @@
+import os
+
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from .models import Base, SQLALCHEMY_DATABASE_URL
+from .models import Base
 from .routes import router
 
-# Create database engine
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+load_dotenv()
+engine = create_engine(os.getenv('SQLALCHEMY_DATABASE_URL'))
 
-# Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Create tables
 Base.metadata.create_all(bind=engine)
 
-# Define the FastAPI app
 app = FastAPI()
 
-# Include routers
 app.include_router(router)
