@@ -38,7 +38,7 @@ class UserModel(Base):
 
 
 # Create session factory
-SQLALCHEMY_DATABASE_URL = "postgresql://test:test@localhost/vk"
+SQLALCHEMY_DATABASE_URL = "postgresql://test:test@db/vk"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
